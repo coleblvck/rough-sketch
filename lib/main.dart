@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:rough_sketch/global_functions.dart';
 import 'package:rough_sketch/screens/desktop.dart';
 
 void main() {
   runApp(const RoughSketch());
+  //Move to desktop build?
+  initAppList();
 }
 
 class RoughSketch extends StatelessWidget {

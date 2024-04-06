@@ -3,8 +3,8 @@ import 'package:installed_apps/installed_apps.dart';
 import 'package:installed_apps/app_info.dart';
 
 
-class Blinders extends StatelessWidget {
-  const Blinders({
+class Boxes extends StatelessWidget {
+  const Boxes({
     super.key,
     required this.allApps,
   });
@@ -13,20 +13,20 @@ class Blinders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      physics: const BouncingScrollPhysics(),
       itemCount: allApps.length,
-      itemExtent: 60,
       itemBuilder: (context, index) {
-        return BlinderItem(appInfo: allApps[index]);
+        return GridItem(appInfo: allApps[index]);
       },
     );
   }
 }
 
 
-class BlinderItem extends StatelessWidget {
-  const BlinderItem({
+class GridItem extends StatelessWidget {
+  const GridItem({
     super.key,
     required this.appInfo
   });
