@@ -34,64 +34,18 @@ class _DesktopState extends State<Desktop> {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: MediaQuery.of(context).orientation == Orientation.portrait? Column(
+            child: MediaQuery.of(context).orientation == Orientation.portrait?
+            Column(
                     children: [
                       desktopBox1(),
-                      Card(
-                        color: Colors.orange.withAlpha(450),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(RemixIcon.search,
-                                size: 30,),
-                              ),
-                              Expanded(
-                                child: TextField(
-                                  controller: searchController,
-                                  onChanged: (term)=>setState(() {
-                                    search(term);
-                                  }),
-                                  decoration: const InputDecoration(border: InputBorder.none),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  setState(() {
-                                    searchController.clear();
-                                    search("");
-                                  });
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(RemixIcon.close_circle,
-                                    size: 30,),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    toggleMenu();
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: menuShown? const Icon(RemixIcon.arrow_left_up,
-                                    size: 30,): const Icon(RemixIcon.menu_3,
-                                    size: 30,),
-                                ),
-                              ),
-                            ],
-                          )),
+                      searchCard(),
                       desktopBox2(),
                     ],
-                  ): Row(
+                  )
+                : Row(
                     children: [
                       desktopBox1(),
-                      const VerticalDivider(),
-                      desktopBox2(),
+                      desktopBox2(landscapeOT: true),
                     ],
                   ),
 
@@ -103,6 +57,58 @@ class _DesktopState extends State<Desktop> {
     );
   }
 
+  Card searchCard() {
+    return Card(
+                      color: Colors.orange.withAlpha(450),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(RemixIcon.search,
+                              size: 30,),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                controller: searchController,
+                                onChanged: (term)=>setState(() {
+                                  search(term);
+                                }),
+                                decoration: const InputDecoration(border: InputBorder.none),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                  searchController.clear();
+                                  search("");
+                                });
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(RemixIcon.close_circle,
+                                  size: 30,),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  toggleMenu();
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: menuShown? const Icon(RemixIcon.arrow_left_up,
+                                  size: 30,): const Icon(RemixIcon.menu_3,
+                                  size: 30,),
+                              ),
+                            ),
+                          ],
+                        )
+    );
+  }
+
   Expanded desktopBox1() {
     return Expanded(
       flex: 2,
@@ -110,10 +116,15 @@ class _DesktopState extends State<Desktop> {
     );
   }
 
-  Expanded desktopBox2() {
+  Expanded desktopBox2({bool landscapeOT = false}) {
     return Expanded(
       flex: 4,
-      child: desktopBox2Child,
+      child: !landscapeOT? desktopBox2Child: Column(
+        children: [
+          searchCard(),
+          Expanded(child: desktopBox2Child)
+        ],
+      ),
     );
   }
 }
